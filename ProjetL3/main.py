@@ -1,6 +1,5 @@
 import pygame  # Import de la Bibliothèque PyGame
-from pygame.locals import *
-import  function as f
+
 import ihm as i  # Import le fichier ''ihm'' pour pouvoir appeler ''main_menu'' dans ''ihm''
 
 pygame.init()  # Initialise la biblio Pygame

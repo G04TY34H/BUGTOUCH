@@ -1,6 +1,6 @@
 import cv2  # Import de la bibliothèque OpenCV
 import numpy as np  # Import de la bibliothèque nunPy
-import pygame, sys, argparse, imutils, random, time
+import pygame, sys, argparse, imutils, random
 from pygame.locals import *
 
 from collections import deque
@@ -196,6 +196,7 @@ def python_fullscreen_event(event, window, monitor_size):
             else:
                 pygame.display.set_mode((window.get_width(), window.get_height()))
 
+
 # ==================================================================================================================== #
 
 # ==================================================================================================================== #
@@ -210,6 +211,7 @@ def python_quitWindow_event(event):
     if event.type == pygame.QUIT:  # Evenement quitter la fenêtre (croix en haut à droite)
         pygame.quit()
         sys.exit()
+
 
 # ==================================================================================================================== #
 
