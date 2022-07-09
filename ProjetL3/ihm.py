@@ -3,7 +3,6 @@ import time
 
 import pygame, sys
 
-
 import cv2  # Import de la bibliothèque OpenCV
 
 import function as f
@@ -341,7 +340,7 @@ def choix_mode_jeu(window, monitor_size):
                                     hovering_color=hovering_color_calibrage)
         BOUTON_JOUER = c.Button(image=pygame.image.load(r'Play Rect.png'),  # Création du ''BOUTON_JOUER''
                                 pos=((window.get_width() / 1.2), window.get_height() / 1.1),
-                                text_input="JOUER", font=f.get_font(35), base_color=base_color_jouer,
+                                text_input="JOUER", font=f.get_font(40), base_color=base_color_jouer,
                                 hovering_color=hovering_color_jouer)
 
         BOUTON_MODE_ENTRAINEMENT = c.Button(image=fond_bouton_mode,  # Création du ''BOUTON_SANS_TEMPS''
@@ -470,9 +469,12 @@ def choix_mode_jeu(window, monitor_size):
 
 def regles(window, monitor_size):  # Fenêtre règles / comment jouer / touches utilisables
 
-    while True:
+    pygame.display.set_caption("Règles")
 
-        BOUTON_RETOUR = f.retour_button_generator(window)  # Création ''BOUTON_RETOUR''
+    rule = pygame.image.load(r'Rule.png')
+    rule = pygame.transform.scale(rule,  (1280,720))
+
+    while True:
 
         for event in pygame.event.get():  # LECTURE DES EVENT DANS LA FENETRE DES REGLES PYGAME
             if event.type == pygame.KEYDOWN:  # EVENT APPUIE TOUCHE CLAVIER
@@ -482,17 +484,9 @@ def regles(window, monitor_size):  # Fenêtre règles / comment jouer / touches 
             f.python_fullscreen_event(event, window, monitor_size)
             f.python_quitWindow_event(event)
 
-            if event.type == pygame.MOUSEBUTTONDOWN:  # EVENT clique souris
-                if BOUTON_RETOUR.checkForInput(
-                        pygame.mouse.get_pos()):  # SI clique sur bouton retour alors ramène au menu du jeu
-                    main_menu(window)
+        window.blit(rule,(0,0))
 
-        BOUTON_RETOUR.changeColor(pygame.mouse.get_pos())  # Actualisation du ''BOUTON_RETOUR''
-        BOUTON_RETOUR.update(window)
-
-        window.blit(cursor,
-                    pygame.mouse.get_pos())  # Affichage de l'image suivant le curseur permettant un curseur custom
+        window.blit(cursor, pygame.mouse.get_pos())  # Affichage de l'image suivant le curseur permettant un curseur custom
 
         pygame.display.update()  # Actualise la fenêtre
-        window.blit(pygame.transform.scale(background, (window.get_width(), window.get_height())),
-                    (0, 0))  # Resizing du background pour match le taille de la window
+        window.blit(pygame.transform.scale(background, (window.get_width(), window.get_height())),(0, 0))  # Resizing du background pour match le taille de la window
