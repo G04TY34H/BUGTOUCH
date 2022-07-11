@@ -7,11 +7,11 @@ import function as f
 import bouton as b
 import mobs
 
-cursor = pygame.image.load(r"Ressources/cursor.png")  # Chargement image du curseur custom
+cursor = pygame.image.load(r"cursor.png")  # Chargement image du curseur custom
 cursor = pygame.transform.scale(cursor, (50, 50))  # Changement de la taille du curseur
-background = pygame.image.load(r'Ressources/fond.png')  # Chargement image de fond
+background = pygame.image.load(r'fond.png')  # Chargement image de fond
 
-moskigros = f.image_resize(200, 200, r'Ressources/Moskigros_violet.png')  # Chargement image Moskigros Entraînement
+moskigros = f.image_resize(200, 200, r'Moskigros_violet.png')  # Chargement image Moskigros Entraînement
 
 stop_thread_detect_ball = threading.Event()  # Initialisations variables permettant l'arrêt des threads
 stop_thread_countdown = threading.Event()
@@ -31,7 +31,7 @@ flag_calibrage = 0  # Flag indiquant si le calibrage est fait
 
 def main_menu(window):  # Menu du Jeu
 
-    player_rect = pygame.image.load(r'Ressources/Play Rect.png')
+    player_rect = pygame.image.load(r'Play Rect.png')
 
     monitor_size = [pygame.display.Info().current_w,pygame.display.Info().current_h]  # Récupération de la taille de l'écran
 
@@ -369,7 +369,7 @@ def choix_mode_jeu(window, monitor_size):
                                     pos=((window.get_width() / 2), window.get_height() / 2 + 175),
                                     text_input="Calibrer Caméra", font=f.get_font(35), base_color=base_color_calibrage,
                                     hovering_color=hovering_color_calibrage)
-        BOUTON_JOUER = b.Button(image=pygame.image.load(r'Ressources/Play Rect.png'),  # Création du ''BOUTON_JOUER''
+        BOUTON_JOUER = b.Button(image=pygame.image.load(r'Play Rect.png'),  # Création du ''BOUTON_JOUER''
                                 pos=((window.get_width() / 1.2), window.get_height() / 1.1),
                                 text_input="JOUER", font=f.get_font(40), base_color=base_color_jouer,
                                 hovering_color=hovering_color_jouer)
@@ -509,10 +509,10 @@ def regles(window, monitor_size):  # Fenêtre règles / comment jouer / touches 
 
     pygame.display.set_caption("Règles")
 
-    rule = pygame.image.load(r'Ressources/Rule.png')
+    rule = pygame.image.load(r'Rule.png')
     rule = pygame.transform.scale(rule, (1280, 720))
 
-    fond_retour = pygame.image.load(r'Ressources/Play Rect.png')  # Rectangle transparent servant de fond pour le bouton ''RETOUR''
+    fond_retour = pygame.image.load(r'Play Rect.png')  # Rectangle transparent servant de fond pour le bouton ''RETOUR''
 
     BOUTON_RETOUR = b.Button(image=pygame.transform.scale(fond_retour, (190, 60)),  # Création bouton ''RETOUR''
                              pos=((window.get_width() / 2), window.get_height() / 1.05),
@@ -526,7 +526,7 @@ def regles(window, monitor_size):  # Fenêtre règles / comment jouer / touches 
                     main_menu(window)
 
             f.python_fullscreen_event(event, window, monitor_size)
-            f.python_quitWindow_event(event)
+            f.python_quit_window_event(event)
 
             if event.type == pygame.MOUSEBUTTONDOWN:  # EVENT clique souris
                 if BOUTON_RETOUR.check_for_input(pygame.mouse.get_pos()):  # SI clique sur bouton retour alors ramène au menu du jeu

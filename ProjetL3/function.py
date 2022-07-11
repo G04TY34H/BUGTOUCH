@@ -38,7 +38,7 @@ def image_resize(x, y, nom_image):
 
 
 def fond_resize(x, y):
-    fond = pygame.image.load(r'Ressources/Play Rect.png')  # Loading de l'image de fond pour le score (rectangle transparent)
+    fond = pygame.image.load(r'Play Rect.png')  # Loading de l'image de fond pour le score (rectangle transparent)
     fond = pygame.transform.scale(fond,(x, y))  # Resizing de l'image de fond pour le score par rapport au para 'x' et 'y'
     return fond  # équivalent au nouveau format du fond
 
@@ -161,7 +161,7 @@ def click_event(event, x, y, flags, params):  # Fonction appelée lors d'un cliq
 
 
 def retour_button_generator(window):
-    fond_retour = pygame.image.load(r'Ressources/Play Rect.png')  # Rectangle transparent servant de fond pour le bouton ''RETOUR''
+    fond_retour = pygame.image.load(r'Play Rect.png')  # Rectangle transparent servant de fond pour le bouton ''RETOUR''
     bouton_retour = c.Button(image=pygame.transform.scale(fond_retour, (250, 80)),  # Création bouton ''RETOUR''
                              pos=((window.get_width() / 7.75), window.get_height() / 1.1),
                              text_input='RETOUR', font=get_font(30), base_color="#d7fcd4", hovering_color="White")
@@ -177,7 +177,7 @@ def retour_button_generator(window):
 
 
 def get_font(size):  # Return la taille de police souhaitée
-    return pygame.font.Font(r"Ressources/font.ttf", size)
+    return pygame.font.Font(r"font.ttf", size)
 
 
 # ==================================================================================================================== #

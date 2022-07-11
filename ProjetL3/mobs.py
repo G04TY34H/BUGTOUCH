@@ -13,7 +13,7 @@ class mobs_class:
         self.moskito_spawn_time = 2
         self.time = selected_time_value  # Time_Value équivalent au temps sélectionné dans Choix Mode de Jeu, =0 si Mode sans Temps
 
-        self.score_value_mobs = -1   # Score
+        self.score_value_mobs = 1   # Score
 
     def spawn_insects(self):
         t = time.time()
@@ -120,7 +120,7 @@ class moskigros(moskito):   # CLASS MOSKIGROS AVEC HERITAGE MOSKITO
 
         self.point_value = 1    # Valeur de pts donnée par le moskito
         self.hitbox = pygame.Rect(start_pos[0], start_pos[1],250,250)    # Initialization HitBox du moskito
-        self.images = f.image_resize(200, 200, r'Ressources/Moskigros_violet.png')
+        self.images = f.image_resize(200, 200, r'Moskigros_violet.png')
         self.images = pygame.transform.flip(self.images, bool_flip, False)
 
 
