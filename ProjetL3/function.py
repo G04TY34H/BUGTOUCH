@@ -16,13 +16,12 @@ ap.add_argument("-v", "--video", help="path to the (optional) video file")
 ap.add_argument("-b", "--buffer", type=int, default=64, help="max buffer size")
 args = vars(ap.parse_args())
 
-redLower = (170, 100, 100)  # Limite max et min pour la détection de la balle rouge pour HSV
-redUpper = (179, 255, 255)
+
 pts = deque(maxlen=args["buffer"])  # Initialisation des points de suivi de la balle (coord x et y)
 
 x_ball = -200  # Variable prenant la coord 'X' de la balle détecté (-200 = valeur de basse quand pas détecté)
 y_ball = -200  # Variable prenant la coord 'Y' de la balle détecté (-200 = valeur de basse quand pas détecté)
--200
+
 Fullscreen = False
 
 
@@ -97,6 +96,9 @@ def change_perspective(frame):  # Fonction permettant le changement de perspecti
 
 def detect_ball(output):  # MODULE DE DETECTION DE BALLE ROUGE
 
+    redLower = (170, 100, 100)  # Limite max et min pour la détection de la balle rouge pour HSV
+    redUpper = (179, 255, 255)
+
     blurred = cv2.GaussianBlur(output, (11, 11),0)  # Floute la window output et la convertie en un espace de couleur HSV
     hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
 
@@ -136,7 +138,7 @@ def set_ball_coord(x, y):
 def get_ball_coord(largeur_window_jeu, hauteur_window_jeu):
     new_x = (x_ball*largeur_window_jeu)/800
     new_y = (y_ball*hauteur_window_jeu)/450
-    return(new_x,new_y)
+    return new_x, new_y
 
 
 # ==================================================================================================================== #
@@ -144,7 +146,7 @@ def get_ball_coord(largeur_window_jeu, hauteur_window_jeu):
 # ==================================================================================================================== #
 
 
-def click_event(event, x, y, flags, params):  # Fonction appelée lors d'un clique souris
+def click_event(event, x, y, flags, params):  # Fonction appelée lors d'un clique souris | ATTENTION LES PARA NON UTILISE SONT ESSENTIELS
     if event == cv2.EVENT_LBUTTONDOWN:  # Condition ''SI'' Clique Gauche souris
         global flag  # Variable Global permettant le décompte du nombre de points posé afin de comptabiliser les coords sélectionnés
         if flag <= 3:  # Condition ''SI'' flag <= 3 alors il reste encore des points de coord à saisir, si > alors tous les points ont été choisis
@@ -164,7 +166,7 @@ def retour_button_generator(window):
                              pos=((window.get_width() / 7.75), window.get_height() / 1.1),
                              text_input='RETOUR', font=get_font(30), base_color="#d7fcd4", hovering_color="White")
 
-    bouton_retour.changeColor(pygame.mouse.get_pos())  # SI le curseur passe sur le bouton → changement couleur
+    bouton_retour.change_color(pygame.mouse.get_pos())  # SI le curseur passe sur le bouton → changement couleur
     bouton_retour.update(window)  # UPDATE du bouton ''RETOUR''
     return bouton_retour
 
@@ -229,6 +231,3 @@ def generate_coord(window):
 # ==================================================================================================================== #
 
 # ==================================================================================================================== #
-
-
-
