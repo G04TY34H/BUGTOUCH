@@ -96,13 +96,13 @@ def change_perspective(frame):  # Fonction permettant le changement de perspecti
 
 def detect_ball(output):  # MODULE DE DETECTION DE BALLE ROUGE
 
-    redLower = (170, 100, 100)  # Limite max et min pour la détection de la balle rouge pour HSV
-    redUpper = (179, 255, 255)
+    red_lower = (170, 100, 100)  # Limite max et min pour la détection de la balle rouge pour HSV
+    red_upper = (179, 255, 255)
 
     blurred = cv2.GaussianBlur(output, (11, 11),0)  # Floute la window output et la convertie en un espace de couleur HSV
     hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
 
-    mask = cv2.inRange(hsv, redLower, redUpper)  # Construit un masque pour la couleur ''rouge''
+    mask = cv2.inRange(hsv, red_lower, red_upper)  # Construit un masque pour la couleur ''rouge''
     mask = cv2.erode(mask, None, iterations=2)  # Effectue une série de dilatations et d'érosions pour supprimer
     mask = cv2.dilate(mask, None, iterations=2)  # toutes les petites taches laissées dans le masque
 
@@ -161,8 +161,8 @@ def click_event(event, x, y, flags, params):  # Fonction appelée lors d'un cliq
 
 
 def retour_button_generator(window):
-    fond_RETOUR = pygame.image.load(r'Ressources/Play Rect.png')  # Rectangle transparent servant de fond pour le bouton ''RETOUR''
-    bouton_retour = c.Button(image=pygame.transform.scale(fond_RETOUR, (250, 80)),  # Création bouton ''RETOUR''
+    fond_retour = pygame.image.load(r'Ressources/Play Rect.png')  # Rectangle transparent servant de fond pour le bouton ''RETOUR''
+    bouton_retour = c.Button(image=pygame.transform.scale(fond_retour, (250, 80)),  # Création bouton ''RETOUR''
                              pos=((window.get_width() / 7.75), window.get_height() / 1.1),
                              text_input='RETOUR', font=get_font(30), base_color="#d7fcd4", hovering_color="White")
 
@@ -189,13 +189,12 @@ def python_fullscreen_event(event, window, monitor_size):
 
     global Fullscreen
 
-    if event.type == KEYDOWN:
-        if event.key == K_f:
-            Fullscreen = not Fullscreen
-            if Fullscreen:
-                pygame.display.set_mode(monitor_size, pygame.FULLSCREEN)
-            else:
-                pygame.display.set_mode((window.get_width(), window.get_height()))
+    if event.type == KEYDOWN and event.key == K_f:
+        Fullscreen = not Fullscreen
+        if Fullscreen:
+            pygame.display.set_mode(monitor_size, pygame.FULLSCREEN)
+        else:
+            pygame.display.set_mode((window.get_width(), window.get_height()))
 
 
 # ==================================================================================================================== #
@@ -203,7 +202,7 @@ def python_fullscreen_event(event, window, monitor_size):
 # ==================================================================================================================== #
 
 
-def python_quitWindow_event(event):
+def python_quit_window_event(event):
     if event.type == pygame.KEYDOWN:  # EVENT APPUIE TOUCHE CLAVIER
         if event.key == pygame.K_q:  # SI touche = ECHAP alors arrêt du jeu
             pygame.quit()
@@ -212,6 +211,7 @@ def python_quitWindow_event(event):
     if event.type == pygame.QUIT:  # Evenement quitter la fenêtre (croix en haut à droite)
         pygame.quit()
         sys.exit()
+
 
 
 # ==================================================================================================================== #

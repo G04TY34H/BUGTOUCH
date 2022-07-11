@@ -31,8 +31,9 @@ flag_calibrage = 0  # Flag indiquant si le calibrage est fait
 
 def main_menu(window):  # Menu du Jeu
 
-    monitor_size = [pygame.display.Info().current_w,
-                    pygame.display.Info().current_h]  # Récupération de la taille de l'écran
+    player_rect = pygame.image.load(r'Ressources/Play Rect.png')
+
+    monitor_size = [pygame.display.Info().current_w,pygame.display.Info().current_h]  # Récupération de la taille de l'écran
 
     window.blit(pygame.transform.scale(background, (1280, 720)), (0, 0))  # Affiche le fond
 
@@ -41,16 +42,15 @@ def main_menu(window):  # Menu du Jeu
     pygame.display.set_caption("Menu")  # Change le nom de la fenêtre pour "Menu"
 
     MENU_TEXT = f.get_font(100).render("BUG Touch", True, "#b68f40")  # Texte Menu ''BUG Touch''
-    MENU_RECT = MENU_TEXT.get_rect(
-        center=((window.get_width() / 2), window.get_height() / 9))  # Placement du rect contenant le text du menu
+    MENU_RECT = MENU_TEXT.get_rect(center=((window.get_width() / 2), window.get_height() / 9))  # Placement du rect contenant le text du menu
 
-    BOUTON_JOUER = b.Button(image=pygame.image.load(r'Ressources/Play Rect.png'),  # Création du ''BOUTON_JOUER''
+    BOUTON_JOUER = b.Button(image=player_rect,  # Création du ''BOUTON_JOUER''
                             pos=((window.get_width() / 2), window.get_height() / 2 - 125),
                             text_input='JOUER', font=f.get_font(40), base_color="#d7fcd4", hovering_color="White")
-    BOUTON_REGLES = b.Button(image=pygame.image.load(r'Ressources/Play Rect.png'),  # Création du ''BOUTON_REGLES''
+    BOUTON_REGLES = b.Button(image=player_rect,  # Création du ''BOUTON_REGLES''
                              pos=((window.get_width() / 2), window.get_height() / 2 + 25),
                              text_input="REGLES", font=f.get_font(40), base_color="#d7fcd4", hovering_color="White")
-    BOUTON_QUITTER = b.Button(image=pygame.image.load(r'Ressources/Play Rect.png'),  # Création du ''BOUTON_QUITTER''
+    BOUTON_QUITTER = b.Button(image=player_rect,  # Création du ''BOUTON_QUITTER''
                               pos=((window.get_width() / 2), window.get_height() / 2 + 175),
                               text_input="QUITTER", font=f.get_font(40), base_color="#d7fcd4",
                               hovering_color="White")
@@ -64,7 +64,7 @@ def main_menu(window):  # Menu du Jeu
         for event in pygame.event.get():  # LECTURE DES EVENT DANS LA FENETRE DES REGLES PYGAME
 
             f.python_fullscreen_event(event, window, monitor_size)
-            f.python_quitWindow_event(event)
+            f.python_quit_window_event(event)
 
             if event.type == pygame.MOUSEBUTTONDOWN:  # Check clique souris sour un des boutons du Menu
                 if BOUTON_JOUER.check_for_input(pygame.mouse.get_pos()):
@@ -91,8 +91,7 @@ def main_menu(window):  # Menu du Jeu
 
 def thread_detectBall():  # FONCTION CALIBRAGE PERSPECTIVE CAMERA
 
-    cap = cv2.VideoCapture(0,
-                           cv2.CAP_DSHOW)  # Création objet de la class ''cv2 VideoCapture'' nommé ''cap'', c'est via cette class que l'on accède à la caméra / webcam
+    cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)  # Création objet de la class ''cv2 VideoCapture'' nommé ''cap'', c'est via cette class que l'on accède à la caméra / webcam
 
     global score_value, flag_calibrage
 
@@ -127,8 +126,7 @@ def thread_detectBall():  # FONCTION CALIBRAGE PERSPECTIVE CAMERA
 
 # ==================================================================================================================== #
 
-def jouer(window, mode_select, select_temps, monitor_size,
-          selected_time_value):  # Fonction ''JOUER'' Gameplay + affichage de l'interface de jeu
+def jouer(window, mode_select, select_temps, monitor_size, selected_time_value):  # Fonction ''JOUER'' Gameplay + affichage de l'interface de jeu
 
     SCORE_BACKGROUND = f.fond_resize(425, 55)
 
@@ -202,8 +200,7 @@ def jouer(window, mode_select, select_temps, monitor_size,
 
             f.python_fullscreen_event(event, window, monitor_size)  # Evenement Fullscreen SI 'f' pressé
 
-        window.blit(pygame.transform.scale(background, (window.get_width(), window.get_height())),
-                    (0, 0))  # Resizing du background pour match le taille de la window
+        window.blit(pygame.transform.scale(background, (window.get_width(), window.get_height())),(0, 0))  # Resizing du background pour match le taille de la window
 
         # ==================================================================================================================== #
         # MODE JEU ENTRAINEMENT
@@ -247,10 +244,8 @@ def jouer(window, mode_select, select_temps, monitor_size,
 
                 # Affichage différent en fonctions du nombre de points gagné, dépendant du nombre de points amassé
                 # l'affichage serra différente pour centrer le score.
-                if score_value < 0:
-                    SCORE_TEXT_VALUE = f.get_font(350).render(str(score_value), True, "#b68f40")
-                    window.blit(SCORE_TEXT_VALUE, (window.get_width() / 4.2, window.get_height() / 3.1))
-                elif score_value < 10:
+
+                if 10 > score_value >= 0:
                     SCORE_TEXT_VALUE = f.get_font(350).render(str(score_value), True, "#b68f40")
                     window.blit(SCORE_TEXT_VALUE, (window.get_width() / 2.7, window.get_height() / 3.1))
                 else:
@@ -490,20 +485,15 @@ def choix_mode_jeu(window, monitor_size):
                 if BOUTON_CALIBRAGE.check_for_input(pygame.mouse.get_pos()) and flag_calibrage == 0:
                     if f.coord[0][0] == -10:  # Lance le thread pour le calibrage
                         flag_calibrage = 1
-                        thread_window_cv2 = threading.Thread(
-                            target=thread_detectBall)  # Création thread pour le calibrage de la perspective
+                        thread_window_cv2 = threading.Thread(target=thread_detectBall)  # Création thread pour le calibrage de la perspective
                         thread_window_cv2.start()  # Démarrage du thread
 
-                if BOUTON_JOUER.check_for_input(pygame.mouse.get_pos()) and (
-                        f.coord[0][3] != -10) and select_temps != 0 and mode_select != 0 and (
-                        selected_time_value != 0 or select_temps == 1):
-                    jouer(window, mode_select, select_temps, monitor_size,
-                          selected_time_value)  # SI Calibrage ET mode sélectionné → lance le jeu si cliquer
+                if BOUTON_JOUER.check_for_input(pygame.mouse.get_pos()) and (f.coord[0][3] != -10) and select_temps != 0 and mode_select != 0 and (selected_time_value != 0 or select_temps == 1):
+                    jouer(window, mode_select, select_temps, monitor_size,selected_time_value)  # SI Calibrage ET mode sélectionné → lance le jeu si cliquer
 
             f.python_fullscreen_event(event, window, monitor_size)
 
-        window.blit(cursor,
-                    pygame.mouse.get_pos())  # Affichage de l'image suivant le curseur permettant un curseur custom
+        window.blit(cursor,pygame.mouse.get_pos())  # Affichage de l'image suivant le curseur permettant un curseur custom
 
         pygame.display.update()  # Actualise la fenêtre
         window.blit(pygame.transform.scale(background, (window.get_width(), window.get_height())),
@@ -522,10 +512,9 @@ def regles(window, monitor_size):  # Fenêtre règles / comment jouer / touches 
     rule = pygame.image.load(r'Ressources/Rule.png')
     rule = pygame.transform.scale(rule, (1280, 720))
 
-    fond_RETOUR = pygame.image.load(
-        r'Ressources/Play Rect.png')  # Rectangle transparent servant de fond pour le bouton ''RETOUR''
+    fond_retour = pygame.image.load(r'Ressources/Play Rect.png')  # Rectangle transparent servant de fond pour le bouton ''RETOUR''
 
-    BOUTON_RETOUR = b.Button(image=pygame.transform.scale(fond_RETOUR, (190, 60)),  # Création bouton ''RETOUR''
+    BOUTON_RETOUR = b.Button(image=pygame.transform.scale(fond_retour, (190, 60)),  # Création bouton ''RETOUR''
                              pos=((window.get_width() / 2), window.get_height() / 1.05),
                              text_input='RETOUR', font=f.get_font(20), base_color="#d7fcd4", hovering_color="White")
 
@@ -540,8 +529,7 @@ def regles(window, monitor_size):  # Fenêtre règles / comment jouer / touches 
             f.python_quitWindow_event(event)
 
             if event.type == pygame.MOUSEBUTTONDOWN:  # EVENT clique souris
-                if BOUTON_RETOUR.check_for_input(
-                        pygame.mouse.get_pos()):  # SI clique sur bouton retour alors ramène au menu du jeu
+                if BOUTON_RETOUR.check_for_input(pygame.mouse.get_pos()):  # SI clique sur bouton retour alors ramène au menu du jeu
                     main_menu(window)
 
         window.blit(rule, (0, 0))
@@ -549,8 +537,6 @@ def regles(window, monitor_size):  # Fenêtre règles / comment jouer / touches 
         BOUTON_RETOUR.change_color(pygame.mouse.get_pos())  # Actualisation du ''BOUTON_RETOUR''
         BOUTON_RETOUR.update(window)
 
-        window.blit(cursor,
-                    pygame.mouse.get_pos())  # Affichage de l'image suivant le curseur permettant un curseur custom
+        window.blit(cursor,pygame.mouse.get_pos())  # Affichage de l'image suivant le curseur permettant un curseur custom
         pygame.display.update()  # Actualise la fenêtre
-        window.blit(pygame.transform.scale(background, (window.get_width(), window.get_height())),
-                    (0, 0))  # Resizing du background pour match le taille de la window
+        window.blit(pygame.transform.scale(background, (window.get_width(), window.get_height())),(0, 0))  # Resizing du background pour match le taille de la window
