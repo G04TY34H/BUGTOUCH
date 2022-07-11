@@ -5,7 +5,7 @@ from pygame.locals import *
 
 from collections import deque
 
-import class_file as c
+import bouton as c
 
 coord = [[-10, -10, -10, -10], [-10, -10, -10,-10]]  # Array des coordonnées des 4 points de la surface de Jeux à recalibrer (changer de perspective)
 flag = 0  # Variable servant de compteur pour le nombre de coordonnées sélectionné (4 max pour les 4 points formant la zone sur laquelle la perspective sera modifié)
@@ -22,7 +22,7 @@ pts = deque(maxlen=args["buffer"])  # Initialisation des points de suivi de la b
 
 x_ball = -200  # Variable prenant la coord 'X' de la balle détecté (-200 = valeur de basse quand pas détecté)
 y_ball = -200  # Variable prenant la coord 'Y' de la balle détecté (-200 = valeur de basse quand pas détecté)
-
+-200
 Fullscreen = False
 
 
@@ -39,7 +39,7 @@ def image_resize(x, y, nom_image):
 
 
 def fond_resize(x, y):
-    fond = pygame.image.load(r'Play Rect.png')  # Loading de l'image de fond pour le score (rectangle transparent)
+    fond = pygame.image.load(r'Ressources/Play Rect.png')  # Loading de l'image de fond pour le score (rectangle transparent)
     fond = pygame.transform.scale(fond,(x, y))  # Resizing de l'image de fond pour le score par rapport au para 'x' et 'y'
     return fond  # équivalent au nouveau format du fond
 
@@ -121,8 +121,8 @@ def detect_ball(output):  # MODULE DE DETECTION DE BALLE ROUGE
             cv2.circle(output, center, 5, (0, 0, 255), -1)  # Dessine un cercle jaune autour de la balle
     else:
         global x_ball, y_ball  # Quand pas de balle trouvée reset les coords 'x' et 'y' de la balle
-        x_ball = -200
-        y_ball = -200
+        x_ball = -2000
+        y_ball = -2000
 
     # Update emplacement du point rouge centrale de la balle
     pts.appendleft(center)
@@ -137,7 +137,6 @@ def get_ball_coord(largeur_window_jeu, hauteur_window_jeu):
     new_x = (x_ball*largeur_window_jeu)/800
     new_y = (y_ball*hauteur_window_jeu)/450
     return(new_x,new_y)
-
 
 
 # ==================================================================================================================== #
@@ -160,7 +159,7 @@ def click_event(event, x, y, flags, params):  # Fonction appelée lors d'un cliq
 
 
 def retour_button_generator(window):
-    fond_RETOUR = pygame.image.load(r'Play Rect.png')  # Rectangle transparent servant de fond pour le bouton ''RETOUR''
+    fond_RETOUR = pygame.image.load(r'Ressources/Play Rect.png')  # Rectangle transparent servant de fond pour le bouton ''RETOUR''
     bouton_retour = c.Button(image=pygame.transform.scale(fond_RETOUR, (250, 80)),  # Création bouton ''RETOUR''
                              pos=((window.get_width() / 7.75), window.get_height() / 1.1),
                              text_input='RETOUR', font=get_font(30), base_color="#d7fcd4", hovering_color="White")
@@ -176,7 +175,7 @@ def retour_button_generator(window):
 
 
 def get_font(size):  # Return la taille de police souhaitée
-    return pygame.font.Font(r"font.ttf", size)
+    return pygame.font.Font(r"Ressources/font.ttf", size)
 
 
 # ==================================================================================================================== #
@@ -219,9 +218,9 @@ def python_quitWindow_event(event):
 
 
 def generate_coord(window):
-    x = random.randint(115, window.get_width() - 115)  # Randomize nouvelle coord X avec max largeur de la fenêtre
+    x = random.randint(0, window.get_width() - 200)  # Randomize nouvelle coord X avec max largeur de la fenêtre
 
-    y = random.randint(65, window.get_height() - 65)  # Randomize nouvelle coord Y avec max hauteur de la fenêtre
+    y = random.randint(0, window.get_height() - 200)  # Randomize nouvelle coord Y avec max hauteur de la fenêtre
 
     rect_center = (x, y)  # ''rect.center'' équivaut aux coord du moskito
 
