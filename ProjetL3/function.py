@@ -6,7 +6,7 @@ from pygame.locals import *
 from collections import deque
 
 import bouton as c
-
+import sounds
 
 coord = [[-10, -10, -10, -10], [-10, -10, -10,-10]]  # Array des coordonnées des 4 points de la surface de Jeux à recalibrer (changer de perspective)
 flag = 0  # Variable servant de compteur pour le nombre de coordonnées sélectionné (4 max pour les 4 points formant la zone sur laquelle la perspective sera modifié)
@@ -29,6 +29,7 @@ color_lower = (0,0,0)
 color_upper = (0,0,0)
 
 selected_color = "red"
+sound_manager = sounds.SoundManager()
 
 # ==================================================================================================================== #
 
@@ -107,14 +108,14 @@ def color_selected(color):
         color_lower = (170, 100, 100)  # Limite max et min pour la détection de la balle rouge pour HSV
         color_upper = (179, 255, 255)
     elif color == "blue":
-        color_lower = (110,50,50)
-        color_upper = (130,255,255)
+        color_lower = (100,150,0)
+        color_upper = (140,255,255)
     elif color == "green":
-        color_lower = (36,0,0)
-        color_upper = (86,255,255)
+        color_lower = (50,100,100 )
+        color_upper = (70,255,255,)
     elif color == "yellow":
-        color_lower = (0,208,208)
-        color_upper = (47,255,255)
+        color_lower = (20, 100, 100)
+        color_upper = (30, 255, 255)
 
 
 def detect_ball(output):  # MODULE DE DETECTION DE BALLE ROUGE
@@ -222,8 +223,12 @@ def python_fullscreen_event(event, window, monitor_size):
 
 # ==================================================================================================================== #
 
+def python_sound_click(event):
+    if event.type == pygame.MOUSEBUTTONUP:
+        sound_manager.play("click")
 
-def python_quit_window_event(event):
+def python_quit_window_event_and_click(event):
+
     if event.type == pygame.KEYDOWN:  # EVENT APPUIE TOUCHE CLAVIER
         if event.key == pygame.K_q:  # SI touche = ECHAP alors arrêt du jeu
             pygame.quit()

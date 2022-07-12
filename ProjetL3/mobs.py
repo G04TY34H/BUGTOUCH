@@ -13,7 +13,6 @@ class mobs_class:
         self.moskito_spawn_time = 2
         self.time = selected_time_value  # Time_Value équivalent au temps sélectionné dans Choix Mode de Jeu, =0 si Mode sans Temps
 
-
         self.score_value_mobs = 0   # Score
 
     def spawn_insects(self):
@@ -47,6 +46,7 @@ class mobs_class:
             self.spawn_insects()    #
             for mob in self.list_mobs:  # Pour tous les mobs
                 if mob.hitbox.collidepoint(x_ball, y_ball) and x_ball >= 0 and y_ball >= 0:  # Check SI impact avec Balle
+                    f.sound_manager.play(mob.death_sound)
                     self.score_value_mobs += mob.point_value    # SI impact alors ajoute montant de point(s) lié au mob touché
                     self.list_mobs.remove(mob)  # Supprime le mob touché      | 1pt Mokigros | 2pts Moskito | -1pt Piou
                 else:
@@ -72,13 +72,14 @@ class moskito:  # CLASS MOSKITO
         else:
             bool_flip = False
 
+        self.death_sound = "kill_moskito"
         self.point_value = 2    # Valeur de pts donnée par le moskito
         self.hitbox = pygame.Rect(start_pos[0], start_pos[1],125,125)   # Initialization HitBox du moskito
 
         if f.selected_color == 'red':
-            self.images = f.image_resize(200, 200, r'Moskito_violet.png')
+            self.images = f.image_resize(150, 150, r'Moskito_violet.png')
         else:
-            self.images = f.image_resize(200, 200, r'Moskito.png')
+            self.images = f.image_resize(150, 150, r'Moskito.png')
 
         self.images = pygame.transform.flip(self.images, bool_flip, False)  # Flip l'image du moskito dépendamment de sa direction
 
@@ -124,6 +125,7 @@ class moskigros(moskito):   # CLASS MOSKIGROS AVEC HERITAGE MOSKITO
         else:
             bool_flip = False
 
+        self.death_sound = "kill_moskito"
         self.point_value = 1    # Valeur de pts donnée par le moskito
         self.hitbox = pygame.Rect(start_pos[0], start_pos[1],250,250)    # Initialization HitBox du moskito
 
@@ -145,6 +147,7 @@ class piou(moskito):    # CLASS PIOU AVEC HERITAGE MOSKITO
         else:
             bool_flip = False
 
+        self.death_sound = "kill_moskito"
         self.point_value = -1   # Valeur de pts donnée par le moskito
         self.hitbox = pygame.Rect(start_pos[0], start_pos[1],100,100)    # Initialization HitBox du moskito
         self.images = f.image_resize(100, 100, r'Piou_Rose.png')  # Initialise Image du Moskito

@@ -7,6 +7,7 @@ import function as f
 import bouton as b
 import mobs
 
+
 cursor = pygame.image.load(r"cursor.png")  # Chargement image du curseur custom
 cursor = pygame.transform.scale(cursor, (50, 50))  # Changement de la taille du curseur
 background = pygame.image.load(r'fond.png')  # Chargement image de fond
@@ -23,6 +24,8 @@ flag_calibrage = 0  # Flag indiquant si le calibrage est fait
 
 color_selected ="red"
 
+
+
 # ==================================================================================================================== #
 
 # ==================================================================================================================== #
@@ -31,6 +34,7 @@ color_selected ="red"
 def main_menu(window):  # Menu du Jeu
 
     player_rect = pygame.image.load(r'Play Rect.png')
+    Quitter_rect = f.image_resize(300,70,r'Play Rect.png')
 
     monitor_size = [pygame.display.Info().current_w,pygame.display.Info().current_h]  # Récupération de la taille de l'écran
 
@@ -49,27 +53,37 @@ def main_menu(window):  # Menu du Jeu
     BOUTON_REGLES = b.Button(image=player_rect,  # Création du ''BOUTON_REGLES''
                              pos=((window.get_width() / 2), window.get_height() / 2 + 25),
                              text_input="REGLES", font=f.get_font(40), base_color="#d7fcd4", hovering_color="White")
-    BOUTON_QUITTER = b.Button(image=player_rect,  # Création du ''BOUTON_QUITTER''
+
+    BOUTON_BACKGROUND = b.Button(image=player_rect,  # Création du ''BOUTON_BACKGROUND''
                               pos=((window.get_width() / 2), window.get_height() / 2 + 175),
-                              text_input="QUITTER", font=f.get_font(40), base_color="#d7fcd4",
+                              text_input="FOND", font=f.get_font(40), base_color="#d7fcd4",
+                              hovering_color="White")
+
+    BOUTON_QUITTER = b.Button(image=Quitter_rect,  # Création du ''BOUTON_QUITTER''
+                              pos=((window.get_width() / 2), window.get_height() / 2 + 290),
+                              text_input="QUITTER", font=f.get_font(30), base_color="#d7fcd4",
                               hovering_color="White")
 
     while True:
 
-        for button in [BOUTON_JOUER, BOUTON_REGLES, BOUTON_QUITTER]:  # Actualise l'affichage de tout les
+        for button in [BOUTON_JOUER, BOUTON_REGLES, BOUTON_QUITTER, BOUTON_BACKGROUND]:  # Actualise l'affichage de tout les
             button.change_color(pygame.mouse.get_pos())  # boutons du menu
             button.update(window)
 
         for event in pygame.event.get():  # LECTURE DES EVENT DANS LA FENETRE DES REGLES PYGAME
 
+            f.python_sound_click(event)
+
             f.python_fullscreen_event(event, window, monitor_size)
-            f.python_quit_window_event(event)
+            f.python_quit_window_event_and_click(event)
 
             if event.type == pygame.MOUSEBUTTONDOWN:  # Check clique souris sour un des boutons du Menu
                 if BOUTON_JOUER.check_for_input(pygame.mouse.get_pos()):
                     choix_mode_jeu(window, monitor_size)  # Chargement interface ''choix_mode_jeu''
                 if BOUTON_REGLES.check_for_input(pygame.mouse.get_pos()):
                     regles(window, monitor_size)  # Chargement interface ''regles''
+                if BOUTON_BACKGROUND.check_for_input(pygame.mouse.get_pos()):
+                    change_background(window, monitor_size) # Chargement interface
                 if BOUTON_QUITTER.check_for_input(pygame.mouse.get_pos()):
                     pygame.quit()  # Quite le Jeu
                     sys.exit()
@@ -166,6 +180,9 @@ def jouer(window, mode_select, select_temps, monitor_size, selected_time_value):
         # Récupération coord balle, si différent de -200 alors une balle a été détectée
 
         for event in pygame.event.get():  # LECTURE DES EVENT DANS LA FENETRE DE JEU PYGAME
+
+            f.python_sound_click(event)
+
             if event.type == pygame.QUIT:  # Evenement quitter la fenetre (croix en haut à droite)
                 stop_thread_detect_ball.set()   # SET() = Stop Thread
                 stop_thread_countdown.set()
@@ -214,6 +231,7 @@ def jouer(window, mode_select, select_temps, monitor_size, selected_time_value):
             window.blit(moskigros, rect_hitbox_moskigros_entrainement.center)   # Affichage du Moskigros mode Entraînement
 
             if rect_hitbox_moskigros_entrainement.collidepoint(x_ball,y_ball):  # SI collision entre moskito et coord balle
+                f.sound_manager.play("kill_moskito")
                 rect_hitbox_moskigros_entrainement.center = f.generate_coord(window)
                 kill_cooldown = 1
 
@@ -317,7 +335,7 @@ def choix_mode_jeu(window, monitor_size):
     fond_bouton_mode = f.fond_resize(475, 85)  # Retourne ''Play Rect.png'' avec les Largeur et Hauteur indiquer
     fond_bouton_temps = f.fond_resize(115, 50)
 
-    fond_bouton_color = f.fond_resize(475,60)
+    fond_bouton_color = f.fond_resize(472,60)
 
     fond_show_time_selected = f.fond_resize(195, 50)
     fond_bouton_calibrage = f.fond_resize(650, 85)
@@ -450,6 +468,9 @@ def choix_mode_jeu(window, monitor_size):
             base_color_jouer = "#d7fcd4"
 
         for event in pygame.event.get():  # LECTURE DES EVENT DANS LA FENETRE DES REGLES PYGAME
+
+            f.python_sound_click(event)
+
             if event.type == pygame.KEYDOWN:  # EVENT APPUIE TOUCHE CLAVIER
                 if event.key == pygame.K_ESCAPE:  # SI touche = ECHAP alors retour au menu du jeu + fermeture
                     stop_thread_detect_ball.set()  # des windows opencv + reset des coords pts calibrage
@@ -551,7 +572,75 @@ def choix_mode_jeu(window, monitor_size):
 # ==================================================================================================================== #
 
 # ==================================================================================================================== #
+def change_background(window, monitor_size):
 
+    global background
+
+    pygame.display.set_caption("Règles")
+
+    rule = pygame.image.load(r'Rule.png')
+    rule = pygame.transform.scale(rule, (1280, 720))
+
+    fond_retour = pygame.image.load(r'Play Rect.png')  # Rectangle transparent servant de fond pour le bouton ''RETOUR''
+
+    fond_background_1 = f.image_resize(426, 240, r'Road.png')
+    fond_background_2 = f.image_resize(426, 240, r'Castle.png')
+    fond_background_3 = f.image_resize(426, 240, r'Desert.png')
+    fond_background_4 = f.image_resize(426, 240, r'fond.png')
+
+    BOUTON_RETOUR = b.Button(image=pygame.transform.scale(fond_retour, (190, 60)),  # Création bouton ''RETOUR''
+                             pos=((window.get_width() / 2), window.get_height() / 1.05),
+                             text_input='RETOUR', font=f.get_font(20), base_color="#d7fcd4", hovering_color="#b68f40")
+
+    BOUTON_BACKGROUND_1 = b.Button(image=fond_background_1,  # Création bouton ''RETOUR''
+                             pos=((window.get_width() / 4), window.get_height() / 4),
+                             text_input='ROAD', font=f.get_font(20), base_color="#FFD700", hovering_color="#b68f40")
+
+    BOUTON_BACKGROUND_2 = b.Button(image=fond_background_2,  # Création bouton ''RETOUR''
+                             pos=((window.get_width() / 4), window.get_height() / 1.5),
+                             text_input='CASTLE', font=f.get_font(20), base_color="#FFD700", hovering_color="#b68f40")
+
+    BOUTON_BACKGROUND_3 = b.Button(image=fond_background_3,  # Création bouton ''RETOUR''
+                             pos=((window.get_width() / 1.5), window.get_height() / 4),
+                             text_input='DESERT', font=f.get_font(20), base_color="#FFD700", hovering_color="#b68f40")
+
+    BOUTON_BACKGROUND_4 = b.Button(image=fond_background_4,  # Création bouton ''RETOUR''
+                             pos=((window.get_width() / 1.5), window.get_height() / 1.5),
+                             text_input='LOWLAND', font=f.get_font(20), base_color="#FFD700", hovering_color="#b68f40")
+
+    while True:
+
+        for event in pygame.event.get():  # LECTURE DES EVENT DANS LA FENETRE DES REGLES PYGAME
+
+            f.python_sound_click(event)
+
+            if event.type == pygame.KEYDOWN:  # EVENT APPUIE TOUCHE CLAVIER
+                if event.key == pygame.K_ESCAPE:  # SI touche = ECHAP alors retour au menu du jeu
+                    main_menu(window)
+
+            f.python_fullscreen_event(event, window, monitor_size)
+            f.python_quit_window_event_and_click(event)
+
+            if event.type == pygame.MOUSEBUTTONDOWN:  # EVENT clique souris
+                if BOUTON_BACKGROUND_1.check_for_input(pygame.mouse.get_pos()):
+                    background = fond_background_1
+                if BOUTON_BACKGROUND_2.check_for_input(pygame.mouse.get_pos()):
+                    background = fond_background_2
+                if BOUTON_BACKGROUND_3.check_for_input(pygame.mouse.get_pos()):
+                    background = fond_background_3
+                if BOUTON_BACKGROUND_4.check_for_input(pygame.mouse.get_pos()):
+                    background = fond_background_4
+                if BOUTON_RETOUR.check_for_input(pygame.mouse.get_pos()):  # SI clique sur bouton retour alors ramène au menu du jeu
+                    main_menu(window)
+
+        for button in [BOUTON_RETOUR,BOUTON_BACKGROUND_1,BOUTON_BACKGROUND_3,BOUTON_BACKGROUND_2, BOUTON_BACKGROUND_4]:
+            button.change_color(pygame.mouse.get_pos())  # Affichage de tous les boutons du menu ''choix_mode_jeu''
+            button.update(window)
+
+
+        window.blit(cursor,pygame.mouse.get_pos())  # Affichage de l'image suivant le curseur permettant un curseur custom
+        pygame.display.update()  # Actualise la fenêtre
+        window.blit(pygame.transform.scale(background, (window.get_width(), window.get_height())),(0, 0))  # Resizing du background pour match le taille de la window
 
 def regles(window, monitor_size):  # Fenêtre règles / comment jouer / touches utilisables
 
@@ -569,12 +658,16 @@ def regles(window, monitor_size):  # Fenêtre règles / comment jouer / touches 
     while True:
 
         for event in pygame.event.get():  # LECTURE DES EVENT DANS LA FENETRE DES REGLES PYGAME
+
+            f.python_sound_click(event)
+
             if event.type == pygame.KEYDOWN:  # EVENT APPUIE TOUCHE CLAVIER
                 if event.key == pygame.K_ESCAPE:  # SI touche = ECHAP alors retour au menu du jeu
                     main_menu(window)
 
             f.python_fullscreen_event(event, window, monitor_size)
-            f.python_quit_window_event(event)
+            f.python_quit_window_event_and_click(event)
+
 
             if event.type == pygame.MOUSEBUTTONDOWN:  # EVENT clique souris
                 if BOUTON_RETOUR.check_for_input(pygame.mouse.get_pos()):  # SI clique sur bouton retour alors ramène au menu du jeu
