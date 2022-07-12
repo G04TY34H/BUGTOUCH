@@ -115,7 +115,7 @@ def thread_detectBall():  # FONCTION CALIBRAGE PERSPECTIVE CAMERA
         if kill_cooldown == 1:  # Si kill cooldown Up alors on peu tuer un moskito
             kill_cooldown = 0  # Kill CV = 0 empêchant un second kill dans un interval d'1 sec
             score_value += 1  # Augmente le score de '1'
-            time.sleep(1)
+            time.sleep(0.7)
 
         _, frame = cap.read()  # Lecture du flux vidéo de la caméra ou webcam, return True si lu correctement, False dans le cas contraire
 
@@ -160,13 +160,12 @@ def jouer(window, mode_select, select_temps, monitor_size, selected_time_value):
         coutdown = threading.Thread(target=thread_coutdown, args=(selected_time_value,))
         coutdown.start()  # Lance le thread permettant le décompte du jeu
 
-
     if mode_select == 1:  # SI mode entraînement sélectionné
         if color_selected == 'red':
             moskigros = f.image_resize(200, 200, r'Moskigros_violet.png')  # Chargement image Moskigros Entraînement
         else:
             moskigros = f.image_resize(200, 200, r'Moskigros.png')  # Chargement image Moskigros Entraînement
-        rect_hitbox_moskigros_entrainement = pygame.Rect(0, 0, 250, 250)  # Première initialisation du moskigros
+        rect_hitbox_moskigros_entrainement = pygame.Rect(0, 0, 250, 300)  # Première initialisation du moskigros
         rect_hitbox_moskigros_entrainement.center = f.generate_coord(window)  # Entraînement
         global kill_cooldown
 
@@ -585,7 +584,7 @@ def change_background(window, monitor_size):
 
     fond_background_1 = f.image_resize(426, 240, r'Road.png')
     fond_background_2 = f.image_resize(426, 240, r'Castle.png')
-    fond_background_3 = f.image_resize(426, 240, r'Desert.png')
+    fond_background_3 = f.image_resize(426, 240, r'Sky.png')
     fond_background_4 = f.image_resize(426, 240, r'fond.png')
 
     BOUTON_RETOUR = b.Button(image=pygame.transform.scale(fond_retour, (190, 60)),  # Création bouton ''RETOUR''
@@ -601,11 +600,11 @@ def change_background(window, monitor_size):
                              text_input='CASTLE', font=f.get_font(20), base_color="#FFD700", hovering_color="#b68f40")
 
     BOUTON_BACKGROUND_3 = b.Button(image=fond_background_3,  # Création bouton ''RETOUR''
-                             pos=((window.get_width() / 1.5), window.get_height() / 4),
-                             text_input='DESERT', font=f.get_font(20), base_color="#FFD700", hovering_color="#b68f40")
+                             pos=((window.get_width() / 1.33), window.get_height() / 4),
+                             text_input='SKY', font=f.get_font(20), base_color="#FFD700", hovering_color="#b68f40")
 
     BOUTON_BACKGROUND_4 = b.Button(image=fond_background_4,  # Création bouton ''RETOUR''
-                             pos=((window.get_width() / 1.5), window.get_height() / 1.5),
+                             pos=((window.get_width() / 1.33), window.get_height() / 1.5),
                              text_input='LOWLAND', font=f.get_font(20), base_color="#FFD700", hovering_color="#b68f40")
 
     while True:

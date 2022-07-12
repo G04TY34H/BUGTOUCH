@@ -1,5 +1,10 @@
 import pygame
 
+import ihm
+
+def get_selected_color():
+    return ihm.color_selected
+
 class SoundManager:
 
     def __init__(self):

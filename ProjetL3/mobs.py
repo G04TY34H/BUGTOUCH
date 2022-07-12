@@ -3,6 +3,8 @@ import function as f
 
 import random
 import time
+import sounds
+
 
 class mobs_class:
     def __init__(self,selected_time_value):
@@ -31,6 +33,12 @@ class mobs_class:
                 self.list_mobs.append(moskito())    # Spawn Moskito
             else:
                 self.list_mobs.append(moskigros())  # Spawn Moskigros
+
+            if self.time_left < (self.time / 3):  # Quand 1/3 du temps restant spawn plus de moskito
+                if random.randint(0,100) > 50:  # Sinon spawn un moskito, 50% de chance d'avoir un Moskigros, 50% un moskito
+                    self.list_mobs.append(moskito())  # Spawn Moskito
+                else:
+                    self.list_mobs.append(moskigros())  # Spawn Moskigros
 
     def update_mobs(self, window):  # Méthode Update de la class mobs
 
@@ -76,7 +84,7 @@ class moskito:  # CLASS MOSKITO
         self.point_value = 2    # Valeur de pts donnée par le moskito
         self.hitbox = pygame.Rect(start_pos[0], start_pos[1],125,125)   # Initialization HitBox du moskito
 
-        if f.selected_color == 'red':
+        if sounds.get_selected_color() == 'red':
             self.images = f.image_resize(150, 150, r'Moskito_violet.png')
         else:
             self.images = f.image_resize(150, 150, r'Moskito.png')
@@ -129,7 +137,7 @@ class moskigros(moskito):   # CLASS MOSKIGROS AVEC HERITAGE MOSKITO
         self.point_value = 1    # Valeur de pts donnée par le moskito
         self.hitbox = pygame.Rect(start_pos[0], start_pos[1],250,250)    # Initialization HitBox du moskito
 
-        if f.selected_color == 'red':
+        if sounds.get_selected_color() == 'red':
             self.images = f.image_resize(200, 200, r'Moskigros_violet.png')
         else:
             self.images = f.image_resize(200, 200, r'Moskigros.png')
