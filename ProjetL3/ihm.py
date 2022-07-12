@@ -11,8 +11,6 @@ cursor = pygame.image.load(r"cursor.png")  # Chargement image du curseur custom
 cursor = pygame.transform.scale(cursor, (50, 50))  # Changement de la taille du curseur
 background = pygame.image.load(r'fond.png')  # Chargement image de fond
 
-moskigros = f.image_resize(200, 200, r'Moskigros_violet.png')  # Chargement image Moskigros Entraînement
-
 stop_thread_detect_ball = threading.Event()  # Initialisations variables permettant l'arrêt des threads
 stop_thread_countdown = threading.Event()
 
@@ -23,6 +21,7 @@ time_value_min_sec = 0  # Temps indiqué convertis en mins / secs
 flag_in_game = 0  # Flag indiquant fin du jeu quand Temps
 flag_calibrage = 0  # Flag indiquant si le calibrage est fait
 
+color_selected ="red"
 
 # ==================================================================================================================== #
 
@@ -147,10 +146,16 @@ def jouer(window, mode_select, select_temps, monitor_size, selected_time_value):
         coutdown = threading.Thread(target=thread_coutdown, args=(selected_time_value,))
         coutdown.start()  # Lance le thread permettant le décompte du jeu
 
+
     if mode_select == 1:  # SI mode entraînement sélectionné
+        if color_selected == 'red':
+            moskigros = f.image_resize(200, 200, r'Moskigros_violet.png')  # Chargement image Moskigros Entraînement
+        else:
+            moskigros = f.image_resize(200, 200, r'Moskigros.png')  # Chargement image Moskigros Entraînement
         rect_hitbox_moskigros_entrainement = pygame.Rect(0, 0, 250, 250)  # Première initialisation du moskigros
         rect_hitbox_moskigros_entrainement.center = f.generate_coord(window)  # Entraînement
         global kill_cooldown
+
 
     if mode_select == 2:  # SI Mode SAUV'Ki'Piou sélectionné
         mobs_class = mobs.mobs_class(selected_time_value)  # Initialisation d'un Objet mob_class
@@ -304,14 +309,18 @@ def show_score(x, y, size_font, score_value_show, window):  # Fonction d'afficha
 
 
 def choix_mode_jeu(window, monitor_size):
-    global flag_calibrage
+    global flag_calibrage, color_selected
+
+    f.color_selected("red")
 
     pygame.display.set_caption("Choix mode de Jeu")  # Change le nom de la fenêtre pour "Choix mode de jeu"
     fond_bouton_mode = f.fond_resize(475, 85)  # Retourne ''Play Rect.png'' avec les Largeur et Hauteur indiquer
     fond_bouton_temps = f.fond_resize(115, 50)
-    fond_bouton_calibrage = f.fond_resize(650, 85)
+
+    fond_bouton_color = f.fond_resize(475,60)
 
     fond_show_time_selected = f.fond_resize(195, 50)
+    fond_bouton_calibrage = f.fond_resize(650, 85)
 
     base_color_temps1 = "#d7fcd4"
     base_color_mode1 = "#d7fcd4"
@@ -336,17 +345,38 @@ def choix_mode_jeu(window, monitor_size):
     mins, secs = divmod(selected_time_value, 60)
     time_value_converti = '{:02d}:{:02d}'.format(mins, secs)
 
-    BOUTON_PLUS_TEMPS = b.Button(image=fond_bouton_temps,  # Création du ''BOUTON_SANS_TEMPS''
+    BOUTON_PLUS_TEMPS = b.Button(image=fond_bouton_temps,  # Création du ''BOUTON_PLUS_TEMPS''
                                  pos=((window.get_width() / 2 + 260), window.get_height() / 1.95),
                                  text_input='+15', font=f.get_font(30), base_color="#d7fcd4",
                                  hovering_color='white')
 
-    BOUTON_MOINS_TEMPS = b.Button(image=fond_bouton_temps,  # Création du ''BOUTON_SANS_TEMPS''
+    BOUTON_MOINS_TEMPS = b.Button(image=fond_bouton_temps,  # Création du ''BOUTON_MOINS_TEMPS''
                                   pos=((window.get_width() / 2 + 130), window.get_height() / 1.95),
                                   text_input='-15', font=f.get_font(30), base_color="#d7fcd4",
                                   hovering_color='white')
 
+
+
+    BOUTON_COLOR_RED = b.Button(image=f.image_resize(45,45,r"red.png"),  # Création du ''BOUTON_COLOR_RED''
+                                 pos=((window.get_width() / 2 - 500), window.get_height() / 1.955),text_input='', font=f.get_font(30),
+                                 base_color="#d7fcd4",hovering_color='white')
+
+    BOUTON_COLOR_GREEN = b.Button(image=f.image_resize(45,45,r"green.png"),  # Création du ''BOUTON_COLOR_GREEN''
+                                 pos=((window.get_width() / 2 - 435), window.get_height() / 1.955),text_input='', font=f.get_font(30),
+                                 base_color="#d7fcd4",hovering_color='white')
+
+    BOUTON_COLOR_YELLOW = b.Button(image=f.image_resize(45,45,r"yellow.png"),  # Création du ''BOUTON_COLOR_YELLOW''
+                                 pos=((window.get_width() / 2 - 370), window.get_height() / 1.955),text_input='', font=f.get_font(30),
+                                 base_color="#d7fcd4",hovering_color='white')
+
+    BOUTON_COLOR_BLUE = b.Button(image=f.image_resize(45,45,r"blue.png"),  # Création du ''BOUTON_COLOR_BLUE''
+                                 pos=((window.get_width() / 2 - 305), window.get_height() / 1.955),text_input='', font=f.get_font(30),
+                                 base_color="#d7fcd4",hovering_color='white')
+
     while True:
+
+        SHOW_COLOR = f.get_font(30).render(color_selected, True, color_selected)  # Texte Menu ''BUG Touch''
+        SHOW_COLOR_RECT = SHOW_COLOR.get_rect(center=((window.get_width() / 2 -170), window.get_height() / 1.95))  # Placement du rect contenant le text du menu
 
         SHOW_TOTAL_TIME_TEXT = f.get_font(35).render(time_value_converti, True, 'white')  # Texte Menu ''BUG Touch''
         SHOW_TOTAL_TIME_RECT = SHOW_TOTAL_TIME_TEXT.get_rect(center=((window.get_width() / 2 + 434), window.get_height() / 1.95))  # Placement du rect contenant le text du menu
@@ -355,7 +385,9 @@ def choix_mode_jeu(window, monitor_size):
         CHOIX_RECT = CHOIX_TEXT.get_rect(center=((window.get_width() / 2), window.get_height() / 10))
 
         CALIBRAGE_TEXT = f.get_font(65).render("Calibrage", True, "#b68f40")  # Création text ''Calibrage''
-        CALIBRAGE_RECT = CALIBRAGE_TEXT.get_rect(center=((window.get_width() / 2), window.get_height() / 2 + 75))
+        CALIBRAGE_RECT = CALIBRAGE_TEXT.get_rect(center=((window.get_width() / 2), window.get_height() / 2 + 85))
+
+        window.blit(fond_bouton_color,(window.get_width()/2 - 535,window.get_height()/2.13))
 
         BOUTON_SANS_TEMPS = b.Button(image=fond_bouton_mode,  # Création du ''BOUTON_SANS_TEMPS''
                                      pos=((window.get_width() / 2 + 300), window.get_height() / 2 - 175),
@@ -386,11 +418,13 @@ def choix_mode_jeu(window, monitor_size):
 
         BOUTON_RETOUR = f.retour_button_generator(window)  # Création d'un bouton retour ramenant au menu du jeu
 
+        window.blit(SHOW_COLOR,SHOW_COLOR_RECT) # Affichage de la couleur sélectionné pour balle
         window.blit(CHOIX_TEXT, CHOIX_RECT)  # Affichage du text ''Choix Mode de Jeu''
         window.blit(CALIBRAGE_TEXT, CALIBRAGE_RECT)  # Affichage du text ''Calibrage''
 
         for button in [BOUTON_SANS_TEMPS, BOUTON_AVEC_TEMPS, BOUTON_RETOUR, BOUTON_CALIBRAGE,
-                       BOUTON_JOUER, BOUTON_MODE_ENTRAINEMENT, BOUTON_SAUV_KI_PIOU]:
+                       BOUTON_JOUER, BOUTON_MODE_ENTRAINEMENT, BOUTON_SAUV_KI_PIOU, BOUTON_COLOR_YELLOW,
+                       BOUTON_COLOR_BLUE, BOUTON_COLOR_GREEN, BOUTON_COLOR_RED]:
             button.change_color(pygame.mouse.get_pos())  # Affichage de tous les boutons du menu ''choix_mode_jeu''
             button.update(window)
 
@@ -487,6 +521,20 @@ def choix_mode_jeu(window, monitor_size):
                         flag_calibrage = 1
                         thread_window_cv2 = threading.Thread(target=thread_detectBall)  # Création thread pour le calibrage de la perspective
                         thread_window_cv2.start()  # Démarrage du thread
+
+                if BOUTON_COLOR_RED.check_for_input(pygame.mouse.get_pos()):
+                        f.color_selected("red")
+                        color_selected = "red"
+                if BOUTON_COLOR_BLUE.check_for_input(pygame.mouse.get_pos()):
+                        f.color_selected("blue")
+                        color_selected = "blue"
+                if BOUTON_COLOR_YELLOW.check_for_input(pygame.mouse.get_pos()):
+                        f.color_selected("yellow")
+                        color_selected = "yellow"
+                if BOUTON_COLOR_GREEN.check_for_input(pygame.mouse.get_pos()):
+                        f.color_selected("green")
+                        color_selected = "green"
+
 
                 if BOUTON_JOUER.check_for_input(pygame.mouse.get_pos()) and (f.coord[0][3] != -10) and select_temps != 0 and mode_select != 0 and (selected_time_value != 0 or select_temps == 1):
                     jouer(window, mode_select, select_temps, monitor_size,selected_time_value)  # SI Calibrage ET mode sélectionné → lance le jeu si cliquer

@@ -13,7 +13,8 @@ class mobs_class:
         self.moskito_spawn_time = 2
         self.time = selected_time_value  # Time_Value équivalent au temps sélectionné dans Choix Mode de Jeu, =0 si Mode sans Temps
 
-        self.score_value_mobs = 1   # Score
+
+        self.score_value_mobs = 0   # Score
 
     def spawn_insects(self):
         t = time.time()
@@ -73,11 +74,16 @@ class moskito:  # CLASS MOSKITO
 
         self.point_value = 2    # Valeur de pts donnée par le moskito
         self.hitbox = pygame.Rect(start_pos[0], start_pos[1],125,125)   # Initialization HitBox du moskito
-        self.images = f.image_resize(125, 125, r'Ressources/Moskito_violet.png')  # Initialise Image du Moskito
+
+        if f.selected_colord == 'red':
+            self.images = f.image_resize(200, 200, r'Moskito_violet.png')
+        else:
+            self.images = f.image_resize(200, 200, r'Moskito.png')
+
         self.images = pygame.transform.flip(self.images, bool_flip, False)  # Flip l'image du moskito dépendamment de sa direction
 
     def define_spawn_pose(self, size):  # Défini l'emplacement de départ du moskito et sa vitesse de déplacement
-        vel = random.uniform(1, 2)
+        vel = random.uniform(1, 2) # Vitesse des mobs allant de 1 à 2
         moving_direction = random.choice(("left", "right", "up", "down"))   # Choix entre les 4 côtés de la fenêtre
         if moving_direction == "right":
             start_pos = (-size[0], random.randint(size[1], 720-size[1]))
@@ -120,7 +126,12 @@ class moskigros(moskito):   # CLASS MOSKIGROS AVEC HERITAGE MOSKITO
 
         self.point_value = 1    # Valeur de pts donnée par le moskito
         self.hitbox = pygame.Rect(start_pos[0], start_pos[1],250,250)    # Initialization HitBox du moskito
-        self.images = f.image_resize(200, 200, r'Moskigros_violet.png')
+
+        if f.selected_colord == 'red':
+            self.images = f.image_resize(200, 200, r'Moskigros_violet.png')
+        else:
+            self.images = f.image_resize(200, 200, r'Moskigros.png')
+
         self.images = pygame.transform.flip(self.images, bool_flip, False)
 
 
@@ -136,5 +147,5 @@ class piou(moskito):    # CLASS PIOU AVEC HERITAGE MOSKITO
 
         self.point_value = -1   # Valeur de pts donnée par le moskito
         self.hitbox = pygame.Rect(start_pos[0], start_pos[1],100,100)    # Initialization HitBox du moskito
-        self.images = f.image_resize(100, 100, r'Ressources/Piou_Rose.png')  # Initialise Image du Moskito
+        self.images = f.image_resize(100, 100, r'Piou_Rose.png')  # Initialise Image du Moskito
         self.images = pygame.transform.flip(self.images, bool_flip, False)  # Flip l'image du moskito dépendamment de sa direction

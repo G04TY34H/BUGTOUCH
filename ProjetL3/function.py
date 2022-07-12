@@ -7,6 +7,7 @@ from collections import deque
 
 import bouton as c
 
+
 coord = [[-10, -10, -10, -10], [-10, -10, -10,-10]]  # Array des coordonnées des 4 points de la surface de Jeux à recalibrer (changer de perspective)
 flag = 0  # Variable servant de compteur pour le nombre de coordonnées sélectionné (4 max pour les 4 points formant la zone sur laquelle la perspective sera modifié)
 
@@ -24,7 +25,10 @@ y_ball = -200  # Variable prenant la coord 'Y' de la balle détecté (-200 = val
 
 Fullscreen = False
 
+color_lower = (0,0,0)
+color_upper = (0,0,0)
 
+selected_colord = "red"
 
 # ==================================================================================================================== #
 
@@ -93,16 +97,33 @@ def change_perspective(frame):  # Fonction permettant le changement de perspecti
 
 # ==================================================================================================================== #
 
+def color_selected(color):
+
+    global color_lower,color_upper, selected_colord
+
+    selected_colord = color
+
+    if color == "red":
+        color_lower = (170, 100, 100)  # Limite max et min pour la détection de la balle rouge pour HSV
+        color_upper = (179, 255, 255)
+    elif color == "blue":
+        color_lower = (110,50,50)
+        color_upper = (130,255,255)
+    elif color == "green":
+        color_lower = (36,0,0)
+        color_upper = (86,255,255)
+    elif color == "yellow":
+        color_lower = (0,208,208)
+        color_upper = (47,255,255)
+
 
 def detect_ball(output):  # MODULE DE DETECTION DE BALLE ROUGE
 
-    red_lower = (170, 100, 100)  # Limite max et min pour la détection de la balle rouge pour HSV
-    red_upper = (179, 255, 255)
-
+    color_selected(color_selected)
     blurred = cv2.GaussianBlur(output, (11, 11),0)  # Floute la window output et la convertie en un espace de couleur HSV
     hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
 
-    mask = cv2.inRange(hsv, red_lower, red_upper)  # Construit un masque pour la couleur ''rouge''
+    mask = cv2.inRange(hsv, color_lower, color_upper)  # Construit un masque pour la couleur ''rouge''
     mask = cv2.erode(mask, None, iterations=2)  # Effectue une série de dilatations et d'érosions pour supprimer
     mask = cv2.dilate(mask, None, iterations=2)  # toutes les petites taches laissées dans le masque
 
