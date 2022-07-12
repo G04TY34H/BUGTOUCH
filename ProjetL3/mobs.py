@@ -75,7 +75,7 @@ class moskito:  # CLASS MOSKITO
         self.point_value = 2    # Valeur de pts donnée par le moskito
         self.hitbox = pygame.Rect(start_pos[0], start_pos[1],125,125)   # Initialization HitBox du moskito
 
-        if f.selected_colord == 'red':
+        if f.selected_color == 'red':
             self.images = f.image_resize(200, 200, r'Moskito_violet.png')
         else:
             self.images = f.image_resize(200, 200, r'Moskito.png')
@@ -127,7 +127,7 @@ class moskigros(moskito):   # CLASS MOSKIGROS AVEC HERITAGE MOSKITO
         self.point_value = 1    # Valeur de pts donnée par le moskito
         self.hitbox = pygame.Rect(start_pos[0], start_pos[1],250,250)    # Initialization HitBox du moskito
 
-        if f.selected_colord == 'red':
+        if f.selected_color == 'red':
             self.images = f.image_resize(200, 200, r'Moskigros_violet.png')
         else:
             self.images = f.image_resize(200, 200, r'Moskigros.png')

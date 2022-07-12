@@ -28,7 +28,7 @@ Fullscreen = False
 color_lower = (0,0,0)
 color_upper = (0,0,0)
 
-selected_colord = "red"
+selected_color = "red"
 
 # ==================================================================================================================== #
 
@@ -99,9 +99,9 @@ def change_perspective(frame):  # Fonction permettant le changement de perspecti
 
 def color_selected(color):
 
-    global color_lower,color_upper, selected_colord
+    global color_lower,color_upper, selected_color
 
-    selected_colord = color
+    selected_color = color
 
     if color == "red":
         color_lower = (170, 100, 100)  # Limite max et min pour la détection de la balle rouge pour HSV
