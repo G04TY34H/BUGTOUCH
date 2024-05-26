@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/doodle.mp3-3333b27417c712f359473039c37d9240.mp3str"
+
+[deps]
+
+source_file="res://Themes/Music/doodle.mp3"
+dest_files=[ "res://.import/doodle.mp3-3333b27417c712f359473039c37d9240.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

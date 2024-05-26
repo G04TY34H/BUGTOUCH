@@ -1,0 +1,91 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Themes/Style/fantasy_forest_printemps.png" type="Texture" id=1]
+[ext_resource path="res://Themes/Style/logo_bugtouch.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/MainMenu.gd" type="Script" id=3]
+[ext_resource path="res://Themes/Style/bugtouch_theme.tres" type="Theme" id=4]
+[ext_resource path="res://Scenes/Options.tscn" type="PackedScene" id=5]
+
+[node name="Main_Menu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_vertical_guides_": [  ]
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 1280.0
+margin_bottom = 720.0
+rect_clip_content = true
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 1 )
+expand = true
+
+[node name="MenuPrimary" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -195.0
+margin_top = -242.0
+margin_right = 201.0
+margin_bottom = 198.0
+
+[node name="TextureRect" type="TextureRect" parent="MenuPrimary"]
+margin_right = 396.0
+margin_bottom = 218.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 2 )
+expand = true
+
+[node name="Menu" type="VBoxContainer" parent="MenuPrimary"]
+margin_top = 222.0
+margin_right = 396.0
+margin_bottom = 440.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Jouer" type="Button" parent="MenuPrimary/Menu"]
+margin_right = 396.0
+margin_bottom = 70.0
+size_flags_vertical = 3
+theme = ExtResource( 4 )
+text = "Jouer"
+
+[node name="Options_button" type="Button" parent="MenuPrimary/Menu"]
+margin_top = 74.0
+margin_right = 396.0
+margin_bottom = 144.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 4 )
+text = "Options"
+
+[node name="Quitter" type="Button" parent="MenuPrimary/Menu"]
+margin_top = 148.0
+margin_right = 396.0
+margin_bottom = 218.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 4 )
+text = "Quitter"
+
+[node name="Options" parent="." instance=ExtResource( 5 )]
+
+[node name="Fond" type="Button" parent="."]
+margin_left = 528.0
+margin_top = 564.0
+margin_right = 757.0
+margin_bottom = 630.0
+size_flags_vertical = 3
+theme = ExtResource( 4 )
+text = "Fond"
+icon_align = 1
+
+[connection signal="pressed" from="MenuPrimary/Menu/Jouer" to="." method="_on_Jouer_pressed"]
+[connection signal="pressed" from="MenuPrimary/Menu/Options_button" to="." method="_on_Options_button_pressed"]
+[connection signal="pressed" from="MenuPrimary/Menu/Quitter" to="." method="_on_Quitter_pressed"]
+[connection signal="pressed" from="Fond" to="." method="_on_Fond_pressed"]

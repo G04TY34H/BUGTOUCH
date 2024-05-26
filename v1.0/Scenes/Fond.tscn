@@ -1,0 +1,233 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://Themes/Style/fantasy_forest_hiver.png" type="Texture" id=1]
+[ext_resource path="res://Themes/Style/fantasy_forest_printemps.png" type="Texture" id=2]
+[ext_resource path="res://Fond.gd" type="Script" id=3]
+[ext_resource path="res://Themes/Style/pyramide.png" type="Texture" id=4]
+[ext_resource path="res://Themes/Style/desert.png" type="Texture" id=5]
+[ext_resource path="res://Themes/Style/lave.png" type="Texture" id=6]
+[ext_resource path="res://Themes/Style/plage.png" type="Texture" id=7]
+[ext_resource path="res://Themes/Style/automne.png" type="Texture" id=8]
+[ext_resource path="res://Themes/Style/plaine.png" type="Texture" id=9]
+[ext_resource path="res://Themes/Style/bugtouch_theme.tres" type="Theme" id=10]
+[ext_resource path="res://Themes/fonts/Pixelme.ttf" type="DynamicFontData" id=11]
+
+[sub_resource type="DynamicFont" id=3]
+size = 30
+outline_size = 1
+font_data = ExtResource( 11 )
+
+[sub_resource type="DynamicFont" id=1]
+size = 51
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 11 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 25
+font_data = ExtResource( 11 )
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+
+[node name="Fond" type="TextureRect" parent="."]
+margin_right = 1280.0
+margin_bottom = 720.0
+texture = ExtResource( 6 )
+expand = true
+
+[node name="Button_Retour" type="Button" parent="Fond"]
+margin_left = 541.0
+margin_top = 621.0
+margin_right = 736.0
+margin_bottom = 692.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 10 )
+custom_fonts/font = SubResource( 3 )
+text = "Retour"
+
+[node name="Titre" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -639.0
+margin_right = 639.0
+margin_bottom = 170.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 1 )
+text = "Changement de Fond"
+align = 1
+valign = 1
+
+[node name="Automne" type="TextureButton" parent="."]
+margin_left = 659.0
+margin_top = 200.0
+margin_right = 919.0
+margin_bottom = 350.0
+texture_normal = ExtResource( 8 )
+expand = true
+
+[node name="FondLabel5" type="Label" parent="Automne"]
+margin_left = 42.0
+margin_top = -34.0
+margin_right = 220.0
+margin_bottom = -8.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 2 )
+text = "Autumn Forest"
+align = 1
+valign = 1
+
+[node name="Hiver" type="TextureButton" parent="."]
+margin_left = 359.0
+margin_top = 200.0
+margin_right = 619.0
+margin_bottom = 350.0
+texture_normal = ExtResource( 1 )
+expand = true
+
+[node name="FondLabel8" type="Label" parent="Hiver"]
+margin_left = 56.0
+margin_top = -33.0
+margin_right = 217.0
+margin_bottom = -7.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 2 )
+text = "Winter forest"
+align = 1
+valign = 1
+
+[node name="Desert" type="TextureButton" parent="."]
+margin_left = 959.0
+margin_top = 200.0
+margin_right = 1219.0
+margin_bottom = 350.0
+texture_normal = ExtResource( 5 )
+expand = true
+
+[node name="FondLabel3" type="Label" parent="Desert"]
+margin_left = 63.0
+margin_top = -37.0
+margin_right = 191.0
+margin_bottom = -11.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 2 )
+text = "Desert"
+align = 1
+valign = 1
+
+[node name="Pyramide" type="TextureButton" parent="."]
+margin_left = 659.0
+margin_top = 450.0
+margin_right = 919.0
+margin_bottom = 600.0
+texture_normal = ExtResource( 4 )
+expand = true
+
+[node name="FondLabel4" type="Label" parent="Pyramide"]
+margin_left = 63.0
+margin_top = -38.0
+margin_right = 191.0
+margin_bottom = -12.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 2 )
+text = "Pyramid"
+align = 1
+valign = 1
+
+[node name="Plage" type="TextureButton" parent="."]
+margin_left = 359.0
+margin_top = 450.0
+margin_right = 619.0
+margin_bottom = 600.0
+texture_normal = ExtResource( 7 )
+expand = true
+
+[node name="FondLabel6" type="Label" parent="Plage"]
+margin_left = 73.0
+margin_top = -37.0
+margin_right = 201.0
+margin_bottom = -11.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 2 )
+text = "Beach"
+align = 1
+valign = 1
+
+[node name="Plaine" type="TextureButton" parent="."]
+margin_left = 59.0
+margin_top = 450.0
+margin_right = 319.0
+margin_bottom = 600.0
+texture_normal = ExtResource( 9 )
+expand = true
+
+[node name="FondLabel7" type="Label" parent="Plaine"]
+margin_left = 69.0
+margin_top = -37.0
+margin_right = 197.0
+margin_bottom = -11.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 2 )
+text = "Plain"
+align = 1
+valign = 1
+
+[node name="Foret" type="TextureButton" parent="."]
+margin_left = 59.0
+margin_top = 200.0
+margin_right = 319.0
+margin_bottom = 350.0
+texture_normal = ExtResource( 2 )
+expand = true
+
+[node name="FondLabel" type="Label" parent="Foret"]
+margin_left = 69.0
+margin_top = -34.0
+margin_right = 197.0
+margin_bottom = -8.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 2 )
+text = "Forest"
+align = 1
+valign = 1
+
+[node name="Lave" type="TextureButton" parent="."]
+margin_left = 959.0
+margin_top = 450.0
+margin_right = 1219.0
+margin_bottom = 600.0
+texture_normal = ExtResource( 6 )
+expand = true
+
+[node name="FondLabel2" type="Label" parent="Lave"]
+margin_left = 64.0
+margin_top = -35.0
+margin_right = 192.0
+margin_bottom = -9.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 2 )
+text = "Volcano"
+align = 1
+valign = 1
+
+[connection signal="pressed" from="Fond/Button_Retour" to="." method="_on_Button_Retour_pressed"]
+[connection signal="pressed" from="Automne" to="." method="_on_Automne_pressed"]
+[connection signal="pressed" from="Hiver" to="." method="_on_Hiver_pressed"]
+[connection signal="pressed" from="Desert" to="." method="_on_Desert_pressed"]
+[connection signal="pressed" from="Pyramide" to="." method="_on_Pyramide_pressed"]
+[connection signal="pressed" from="Plage" to="." method="_on_Plage_pressed"]
+[connection signal="pressed" from="Plaine" to="." method="_on_Plaine_pressed"]
+[connection signal="pressed" from="Foret" to="." method="_on_Foret_pressed"]
+[connection signal="pressed" from="Lave" to="." method="_on_Lave_pressed"]

@@ -1,0 +1,74 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Themes/Style/bugtouch_theme.tres" type="Theme" id=1]
+[ext_resource path="res://Themes/fonts/Pixelme.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Scenes/Options.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scripts/MenuPause.gd" type="Script" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 80
+outline_size = 2
+font_data = ExtResource( 2 )
+
+[node name="MenuPause" type="Control"]
+pause_mode = 2
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+
+[node name="MenuPrimary" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -243.0
+margin_top = -179.0
+margin_right = 243.0
+margin_bottom = 179.0
+
+[node name="Label" type="Label" parent="MenuPrimary"]
+margin_right = 486.0
+margin_bottom = 80.0
+theme = ExtResource( 1 )
+custom_fonts/font = SubResource( 1 )
+text = "PAUSE"
+align = 1
+
+[node name="Menu" type="VBoxContainer" parent="MenuPrimary"]
+margin_top = 84.0
+margin_right = 486.0
+margin_bottom = 358.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Reprendre" type="Button" parent="MenuPrimary/Menu"]
+margin_right = 486.0
+margin_bottom = 88.0
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+text = "Reprendre"
+
+[node name="Options_button_pause" type="Button" parent="MenuPrimary/Menu"]
+margin_top = 92.0
+margin_right = 486.0
+margin_bottom = 181.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+text = "Options"
+
+[node name="QuitterPartie" type="Button" parent="MenuPrimary/Menu"]
+margin_top = 185.0
+margin_right = 486.0
+margin_bottom = 274.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+text = "Quitter la partie"
+
+[node name="Options" parent="." instance=ExtResource( 3 )]
+
+[connection signal="pressed" from="MenuPrimary/Menu/Reprendre" to="." method="_on_Reprendre_pressed"]
+[connection signal="pressed" from="MenuPrimary/Menu/Options_button_pause" to="." method="_on_Options_button_pause_pressed"]
+[connection signal="pressed" from="MenuPrimary/Menu/QuitterPartie" to="." method="_on_QuitterPartie_pressed"]
